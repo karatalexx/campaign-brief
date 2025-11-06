@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getCampaign } from "@/api/requests";
 import { CampaignCard } from "@/components/campaign/CampaignCard";
 import { CreativesGallery } from "@/components/campaign/CreativesGallery";
 import { HeadlinesSection } from "@/components/campaign/HeadlinesSection";
 import { ImagesSection } from "@/components/campaign/ImagesSection";
+import { getCampaign } from "@/api/requests";
 
 type PageProps = { params: Promise<{ id: string }> };
 

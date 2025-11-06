@@ -1,5 +1,5 @@
 import type { GenerateHeadlineData, GenerateImageData } from "@/api/types";
-import { Tone } from "@/generated/prisma/enums";
+import { Tone } from "@/generated/prisma";
 
 export function formatToneForPrompt(tone: Tone): string {
   const toneMap: Record<Tone, string> = {

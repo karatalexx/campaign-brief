@@ -1,12 +1,12 @@
 import { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
 import { ApiResponse, CreateCampaignData } from "@/api/types";
-import { CampaignModel } from "@/generated/prisma/models";
+import { Campaign } from "@/generated/prisma";
 
 export type UseCampaignsReturnValue = {
   createCampaign: UseMutationResult<
-    ApiResponse<CampaignModel>,
+    ApiResponse<Campaign>,
     Error,
     CreateCampaignData
   >;
-  campaignsQuery: UseQueryResult<CampaignModel[], Error>;
+  campaignsQuery: UseQueryResult<Campaign[], Error>;
 };

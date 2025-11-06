@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
-import prisma from "@/lib/prisma";
+import { getCampaigns } from "@/api/requests";
+
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const campaigns = await prisma.campaign.findMany();
+  const campaigns = await getCampaigns();
 
   return (
     <div className="min-h-screen p-8 sm:p-20 font-sans">

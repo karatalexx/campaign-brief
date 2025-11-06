@@ -1,6 +1,6 @@
 import { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
 import { ApiResponse, GenerateHeadlineData } from "@/api/types";
-import { HeadlineModel } from "@/generated/prisma/models";
+import { Headline } from "@/generated/prisma";
 
 export type UseHeadlinesData = {
   campaignId?: number;
@@ -8,15 +8,15 @@ export type UseHeadlinesData = {
 
 export type UseHeadlinesReturnValue = {
   generateHeadlines: UseMutationResult<
-    ApiResponse<HeadlineModel>,
+    ApiResponse<Headline>,
     Error,
     GenerateHeadlineData
   >;
   deleteHeadline: UseMutationResult<
-    ApiResponse<HeadlineModel>,
+    ApiResponse<Headline>,
     Error,
     number,
     unknown
   >;
-  headlinesQuery: UseQueryResult<HeadlineModel[], Error>;
+  headlinesQuery: UseQueryResult<Headline[], Error>;
 };

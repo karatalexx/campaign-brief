@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/Button";
 import { SelectField } from "@/components/ui/SelectField";
 import { TextareaField } from "@/components/ui/TextareaField";
 import { TextField } from "@/components/ui/TextField";
-import { Tone } from "@/generated/prisma/enums";
+import { Tone } from "@/generated/prisma";
 import { useCampaigns } from "@/hooks/useCampaigns";
 
 export default function CampaignForm(): JSX.Element {

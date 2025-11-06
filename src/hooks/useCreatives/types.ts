@@ -1,6 +1,6 @@
 import { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
 import { ApiResponse, CreateCreativeData } from "@/api/types";
-import { CreativeModel } from "@/generated/prisma/models";
+import { Creative } from "@/generated/prisma";
 
 export type UseCreativesData = {
   campaignId?: number;
@@ -8,15 +8,15 @@ export type UseCreativesData = {
 
 export type UseCreativesReturnValue = {
   createCreative: UseMutationResult<
-    ApiResponse<CreativeModel>,
+    ApiResponse<Creative>,
     Error,
     CreateCreativeData
   >;
   deleteCreative: UseMutationResult<
-    ApiResponse<CreativeModel>,
+    ApiResponse<Creative>,
     Error,
     number,
     unknown
   >;
-  creativesQuery: UseQueryResult<CreativeModel[], Error>;
+  creativesQuery: UseQueryResult<Creative[], Error>;
 };

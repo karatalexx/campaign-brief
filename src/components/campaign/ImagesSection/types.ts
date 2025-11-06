@@ -1,5 +1,5 @@
-import type { CampaignModel } from "@/generated/prisma/models/Campaign";
+import type { Campaign } from "@/generated/prisma";
 
 export type ImagesSectionProps = {
-  campaign: CampaignModel;
+  campaign: Campaign;
 };

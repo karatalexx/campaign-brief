@@ -1,5 +1,5 @@
 import z from "zod";
-import { Tone } from "@/generated/prisma/enums";
+import { Tone } from "@/generated/prisma";
 
 export const campaignSchema = z.object({
   name: z.string().trim().min(1, "Name is required."),

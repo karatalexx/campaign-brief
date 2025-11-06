@@ -1,6 +1,6 @@
 import type { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
 import type { ApiResponse, GenerateImageData } from "@/api/types";
-import type { ImageModel } from "@/generated/prisma/models";
+import type { Image } from "@/generated/prisma";
 
 export type UseImagesData = {
   campaignId?: number;
@@ -8,15 +8,15 @@ export type UseImagesData = {
 
 export type UseImagesReturnValue = {
   generateImages: UseMutationResult<
-    ApiResponse<ImageModel>,
+    ApiResponse<Image>,
     Error,
     GenerateImageData
   >;
   deleteImage: UseMutationResult<
-    ApiResponse<ImageModel>,
+    ApiResponse<Image>,
     Error,
     number,
     unknown
   >;
-  imagesQuery: UseQueryResult<ImageModel[], Error>;
+  imagesQuery: UseQueryResult<Image[], Error>;
 };
