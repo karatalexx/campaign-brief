@@ -4,16 +4,14 @@ import { CampaignCard } from "@/components/campaign/CampaignCard";
 import { CreativesGallery } from "@/components/campaign/CreativesGallery";
 import { HeadlinesSection } from "@/components/campaign/HeadlinesSection";
 import { ImagesSection } from "@/components/campaign/ImagesSection";
-import prisma from "@/lib/prisma";
+import { getCampaign } from "@/api/requests";
 
 type PageProps = { params: Promise<{ id: string }> };
 
 export default async function CampaignPage({ params }: PageProps) {
   const { id } = await params;
 
-  const campaign = await prisma.campaign.findUnique({
-    where: { id: Number(id) },
-  });
+  const campaign = await getCampaign(id);
 
   if (!campaign) {
     return notFound();
