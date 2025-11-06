@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { QueryKeys } from "@/api/constants";
 import type { ApiResponse, GenerateHeadlineData } from "@/api/types";
-import type { HeadlineModel } from "@/generated/prisma/models";
+import type { Headline } from "@/generated/prisma";
 import type {
   UseHeadlinesData,
   UseHeadlinesReturnValue,
@@ -17,7 +17,7 @@ export default function useHeadlines(
   const generateHeadlines = useMutation({
     mutationFn: (data: GenerateHeadlineData) => {
       return axios
-        .post<ApiResponse<HeadlineModel>>("/api/ai/headlines/generate", data)
+        .post<ApiResponse<Headline>>("/api/ai/headlines/generate", data)
         .then((res) => res.data);
     },
     onSuccess: () => {
@@ -31,7 +31,7 @@ export default function useHeadlines(
   const deleteHeadline = useMutation({
     mutationFn: (headlineId: number) => {
       return axios
-        .delete<ApiResponse<HeadlineModel>>(`/api/headlines/${headlineId}`)
+        .delete<ApiResponse<Headline>>(`/api/headlines/${headlineId}`)
         .then((res) => res.data);
     },
     onSuccess: () => {
@@ -49,7 +49,7 @@ export default function useHeadlines(
     queryKey: [QueryKeys.CAMPAIGN_HEADLINES, campaignId],
     queryFn: () =>
       axios
-        .get<ApiResponse<HeadlineModel[]>>(
+        .get<ApiResponse<Headline[]>>(
           `/api/campaign/${campaignId}/headlines`,
         )
         .then((res) => res.data.data),

@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { QueryKeys } from "@/api/constants";
 import type { ApiResponse, GenerateImageData } from "@/api/types";
-import type { ImageModel } from "@/generated/prisma/models";
+import type { Image } from "@/generated/prisma";
 import type {
   UseImagesData,
   UseImagesReturnValue,
@@ -15,7 +15,7 @@ export default function useImages(data: UseImagesData): UseImagesReturnValue {
   const generateImages = useMutation({
     mutationFn: (data: GenerateImageData) => {
       return axios
-        .post<ApiResponse<ImageModel>>("/api/ai/images/generate", data)
+        .post<ApiResponse<Image>>("/api/ai/images/generate", data)
         .then((res) => res.data)
         .catch((err) => err.response);
     },
@@ -30,7 +30,7 @@ export default function useImages(data: UseImagesData): UseImagesReturnValue {
   const deleteImage = useMutation({
     mutationFn: (imageId: number) => {
       return axios
-        .delete<ApiResponse<ImageModel>>(`/api/images/${imageId}`)
+        .delete<ApiResponse<Image>>(`/api/images/${imageId}`)
         .then((res) => res.data);
     },
     onSuccess: () => {
@@ -48,7 +48,7 @@ export default function useImages(data: UseImagesData): UseImagesReturnValue {
     queryKey: [QueryKeys.CAMPAIGN_IMAGES, campaignId],
     queryFn: () =>
       axios
-        .get<ApiResponse<ImageModel[]>>(`/api/campaign/${campaignId}/images`)
+        .get<ApiResponse<Image[]>>(`/api/campaign/${campaignId}/images`)
         .then((res) => res.data.data),
     enabled: !!campaignId,
   });

@@ -6,8 +6,7 @@ import { toast } from "react-toastify";
 import type { CreativesGalleryProps } from "@/components/campaign/CreativesGallery/types";
 import { Button } from "@/components/ui/Button";
 import Spinner from "@/components/ui/Spinner";
-import { GenerationStatus } from "@/generated/prisma/enums";
-import { HeadlineModel, ImageModel } from "@/generated/prisma/models";
+import { GenerationStatus, Headline, Image } from "@/generated/prisma";
 import { useCreatives } from "@/hooks/useCreatives";
 import { useHeadlines } from "@/hooks/useHeadlines";
 import { useImages } from "@/hooks/useImages";
@@ -16,7 +15,7 @@ type ViewMode = "side-by-side" | "stacked" | "tabbed";
 
 export default function CreativesGallery(
   props: CreativesGalleryProps,
-): JSX.Element {
+): JSX.Element | null {
   const { campaign } = props;
 
   const [view, setView] = useState<ViewMode>("side-by-side");
@@ -42,7 +41,7 @@ export default function CreativesGallery(
     imagesQuery.isLoading ||
     creativesQuery.isLoading;
 
-  const completedHeadlines = useMemo<HeadlineModel[]>(
+  const completedHeadlines = useMemo<Headline[]>(
     () =>
       headlines.filter(
         (h) => h.text && h.status === GenerationStatus.COMPLETED,
@@ -50,7 +49,7 @@ export default function CreativesGallery(
     [headlines],
   );
 
-  const completedImages = useMemo<ImageModel[]>(
+  const completedImages = useMemo<Image[]>(
     () =>
       images.filter((i) => i.url && i.status === GenerationStatus.COMPLETED),
     [images],
@@ -302,6 +301,10 @@ export default function CreativesGallery(
         No creatives have been paired yet.
       </p>
     );
+
+  if (!completedHeadlines.length && !completedImages.length) {
+    return null;
+  }
 
   return (
     <div>

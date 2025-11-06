@@ -1,4 +1,4 @@
-import type { CampaignModel as Campaign } from "@/generated/prisma/models/Campaign";
+import type { Campaign } from "@/generated/prisma";
 
 export type CampaignCardProps = {
   campaign: Campaign;

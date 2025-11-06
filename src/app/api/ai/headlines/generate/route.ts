@@ -7,7 +7,7 @@ import {
   notFoundResponse,
   successResponse,
 } from "@/api/utils";
-import { GenerationStatus } from "@/generated/prisma/enums";
+import { GenerationStatus } from "@/generated/prisma";
 import prisma from "@/lib/prisma";
 
 const openai = new OpenAI({

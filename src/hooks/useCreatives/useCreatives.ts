@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { QueryKeys } from "@/api/constants";
 import { ApiResponse, CreateCreativeData } from "@/api/types";
-import { CreativeModel } from "@/generated/prisma/models";
+import { Creative } from "@/generated/prisma";
 import {
   UseCreativesData,
   UseCreativesReturnValue,
@@ -17,7 +17,7 @@ export default function useCreatives(
   const createCreative = useMutation({
     mutationFn: (data: CreateCreativeData) => {
       return axios
-        .post<ApiResponse<CreativeModel>>("/api/creatives", data)
+        .post<ApiResponse<Creative>>("/api/creatives", data)
         .then((res) => res.data);
     },
     onSuccess: () => {
@@ -31,7 +31,7 @@ export default function useCreatives(
   const deleteCreative = useMutation({
     mutationFn: (creativeId: number) => {
       return axios
-        .delete<ApiResponse<CreativeModel>>(`/api/creatives/${creativeId}`)
+        .delete<ApiResponse<Creative>>(`/api/creatives/${creativeId}`)
         .then((res) => res.data);
     },
     onSuccess: () => {
@@ -46,7 +46,7 @@ export default function useCreatives(
     queryKey: [QueryKeys.CAMPAIGN_CREATIVES, campaignId],
     queryFn: () =>
       axios
-        .get<ApiResponse<CreativeModel[]>>(
+        .get<ApiResponse<Creative[]>>(
           `/api/campaign/${campaignId}/creatives`,
         )
         .then((res) => res.data.data),

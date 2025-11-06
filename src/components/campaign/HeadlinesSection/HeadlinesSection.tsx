@@ -5,7 +5,7 @@ import { type JSX, useState } from "react";
 import { toast } from "react-toastify";
 import { Button } from "@/components/ui/Button";
 import Spinner from "@/components/ui/Spinner";
-import { GenerationStatus } from "@/generated/prisma/enums";
+import { GenerationStatus } from "@/generated/prisma";
 import { useHeadlines } from "@/hooks/useHeadlines";
 import type { HeadlinesSectionProps } from "./type";
 
