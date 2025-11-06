@@ -1,17 +1,19 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getCampaign } from "@/api/requests";
 import { CampaignCard } from "@/components/campaign/CampaignCard";
 import { CreativesGallery } from "@/components/campaign/CreativesGallery";
 import { HeadlinesSection } from "@/components/campaign/HeadlinesSection";
 import { ImagesSection } from "@/components/campaign/ImagesSection";
+import prisma from "@/lib/prisma";
 
 type PageProps = { params: Promise<{ id: string }> };
 
 export default async function CampaignPage({ params }: PageProps) {
   const { id } = await params;
 
-  const campaign = await getCampaign(id);
+  const campaign = await prisma.campaign.findUnique({
+    where: { id: Number(id) },
+  });
 
   if (!campaign) {
     return notFound();
