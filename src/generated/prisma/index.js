@@ -186,8 +186,7 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "darwin-arm64",
-        "native": true
+        "value": "rhel-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -214,8 +213,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Campaign {\n  id             Int     @id @default(autoincrement())\n  name           String\n  industry       String\n  targetAudience String  @map(\"target_audience\")\n  tone           Tone\n  description    String?\n\n  createdAt DateTime @default(now()) @map(\"created_at\")\n  updatedAt DateTime @updatedAt @map(\"updated_at\")\n\n  headlines Headline[]\n  images    Image[]\n  creatives Creative[]\n\n  @@map(\"campaigns\")\n}\n\nenum Tone {\n  PROFESSIONAL\n  CASUAL\n  EXCITING\n  TRUSTWORTHY\n}\n\nmodel Headline {\n  id         Int              @id @default(autoincrement())\n  campaignId Int              @map(\"campaign_id\")\n  campaign   Campaign         @relation(fields: [campaignId], references: [id], onDelete: Cascade)\n  text       String?\n  status     GenerationStatus\n  createdAt  DateTime         @default(now()) @map(\"created_at\")\n  updatedAt  DateTime         @updatedAt @map(\"updated_at\")\n\n  creatives Creative[]\n\n  @@map(\"headlines\")\n}\n\nmodel Image {\n  id         Int              @id @default(autoincrement())\n  campaignId Int              @map(\"campaign_id\")\n  campaign   Campaign         @relation(fields: [campaignId], references: [id], onDelete: Cascade)\n  url        String?\n  prompt     String?\n  status     GenerationStatus\n\n  createdAt DateTime @default(now()) @map(\"created_at\")\n  updatedAt DateTime @updatedAt @map(\"updated_at\")\n\n  creatives Creative[]\n\n  @@map(\"images\")\n}\n\nenum GenerationStatus {\n  PENDING\n  COMPLETED\n  FAILED\n}\n\nmodel Creative {\n  id         Int       @id @default(autoincrement())\n  campaignId Int?      @map(\"campaign_id\")\n  campaign   Campaign? @relation(fields: [campaignId], references: [id], onDelete: Cascade)\n  headlineId Int?      @map(\"headline_id\")\n  headline   Headline? @relation(fields: [headlineId], references: [id], onDelete: SetNull)\n  imageId    Int?      @map(\"image_id\")\n  image      Image?    @relation(fields: [imageId], references: [id], onDelete: SetNull)\n  createdAt  DateTime  @default(now()) @map(\"created_at\")\n  updatedAt  DateTime  @updatedAt @map(\"updated_at\")\n\n  @@map(\"creatives\")\n}\n",
-  "inlineSchemaHash": "37d090e60cab973778241e2f4d9eac348205fbfc96333d988565b2566df02d88",
+  "inlineSchema": "generator client {\n  provider      = \"prisma-client-js\"\n  output        = \"../generated/prisma\"\n  binaryTargets = [\"rhel-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Campaign {\n  id             Int     @id @default(autoincrement())\n  name           String\n  industry       String\n  targetAudience String  @map(\"target_audience\")\n  tone           Tone\n  description    String?\n\n  createdAt DateTime @default(now()) @map(\"created_at\")\n  updatedAt DateTime @updatedAt @map(\"updated_at\")\n\n  headlines Headline[]\n  images    Image[]\n  creatives Creative[]\n\n  @@map(\"campaigns\")\n}\n\nenum Tone {\n  PROFESSIONAL\n  CASUAL\n  EXCITING\n  TRUSTWORTHY\n}\n\nmodel Headline {\n  id         Int              @id @default(autoincrement())\n  campaignId Int              @map(\"campaign_id\")\n  campaign   Campaign         @relation(fields: [campaignId], references: [id], onDelete: Cascade)\n  text       String?\n  status     GenerationStatus\n  createdAt  DateTime         @default(now()) @map(\"created_at\")\n  updatedAt  DateTime         @updatedAt @map(\"updated_at\")\n\n  creatives Creative[]\n\n  @@map(\"headlines\")\n}\n\nmodel Image {\n  id         Int              @id @default(autoincrement())\n  campaignId Int              @map(\"campaign_id\")\n  campaign   Campaign         @relation(fields: [campaignId], references: [id], onDelete: Cascade)\n  url        String?\n  prompt     String?\n  status     GenerationStatus\n\n  createdAt DateTime @default(now()) @map(\"created_at\")\n  updatedAt DateTime @updatedAt @map(\"updated_at\")\n\n  creatives Creative[]\n\n  @@map(\"images\")\n}\n\nenum GenerationStatus {\n  PENDING\n  COMPLETED\n  FAILED\n}\n\nmodel Creative {\n  id         Int       @id @default(autoincrement())\n  campaignId Int?      @map(\"campaign_id\")\n  campaign   Campaign? @relation(fields: [campaignId], references: [id], onDelete: Cascade)\n  headlineId Int?      @map(\"headline_id\")\n  headline   Headline? @relation(fields: [headlineId], references: [id], onDelete: SetNull)\n  imageId    Int?      @map(\"image_id\")\n  image      Image?    @relation(fields: [imageId], references: [id], onDelete: SetNull)\n  createdAt  DateTime  @default(now()) @map(\"created_at\")\n  updatedAt  DateTime  @updatedAt @map(\"updated_at\")\n\n  @@map(\"creatives\")\n}\n",
+  "inlineSchemaHash": "82f8928d01c62aef719110b86b9002c2b6acaa03cc8730f01c8b8197ec7d8472",
   "copyEngine": true
 }
 
@@ -254,8 +253,8 @@ exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
 // file annotations for bundling tools to include these files
-path.join(__dirname, "libquery_engine-darwin-arm64.dylib.node");
-path.join(process.cwd(), "src/generated/prisma/libquery_engine-darwin-arm64.dylib.node")
+path.join(__dirname, "libquery_engine-rhel-openssl-3.0.x.so.node");
+path.join(process.cwd(), "src/generated/prisma/libquery_engine-rhel-openssl-3.0.x.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "src/generated/prisma/schema.prisma")
