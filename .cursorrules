@@ -1,0 +1,122 @@
+# Flowfox Project Rules
+
+## 1. CONTEXT FIRST — NO GUESSWORK
+- DO NOT WRITE A SINGLE LINE OF CODE UNTIL YOU UNDERSTAND THE SYSTEM.
+- IMMEDIATELY LIST FILES IN THE TARGET DIRECTORY BEFORE MAKING CHANGES.
+- READ EXISTING CODE TO UNDERSTAND PATTERNS BEFORE CREATING NEW CODE.
+- ASK ONLY THE NECESSARY CLARIFYING QUESTIONS. NO FLUFF.
+- DETECT AND FOLLOW EXISTING PATTERNS. MATCH STYLE, STRUCTURE, AND LOGIC.
+- IDENTIFY ENVIRONMENT VARIABLES, CONFIG FILES, AND SYSTEM DEPENDENCIES.
+
+## 2. CODE STRUCTURE & PATTERNS
+
+### Next.js App Router
+- Use Server Components by default. Only add "use client" when necessary (interactivity, hooks, browser APIs).
+- API routes in `src/app/api/` should return `Response.json({ success: boolean, data?: T, error?: string })`.
+- Use async/await for data fetching in Server Components.
+- Prefer server-side data fetching; use React Query only for client-side mutations and real-time updates.
+
+### TypeScript & Type Safety
+- Always use Prisma-generated types from `@/generated/prisma/models` and `@/generated/prisma/enums`.
+- Use Zod schemas for API request/response validation (see `src/types/api.ts`).
+- Never use `any`. Use `unknown` if type is truly unknown, then narrow with type guards.
+
+### Prisma Patterns
+- Always use the singleton Prisma client from `@/lib/prisma`.
+
+### Component Structure
+- UI components in `src/components/ui/` should be reusable and accept standard props.
+
+### API Route Patterns
+- Validate all request bodies with Zod schemas before processing.
+- Return consistent error responses: `{ success: false, error: string }` with appropriate HTTP status codes.
+- Handle errors gracefully: catch, log, and return user-friendly messages.
+- Use try/catch blocks only where necessary (async operations, external API calls).
+
+## 3. CODE QUALITY STANDARDS
+
+### File Size & Organization
+- One component per file (except index.ts exports).
+
+### Error Handling
+- DO NOT wrap everything in try/catch. Think first about what can fail.
+- Use Zod validation for input validation (catches parsing errors).
+- For external API calls (OpenAI), use try/catch with proper error messages.
+- Log errors with context: `console.error("Error generating headlines:", error)`.
+
+### Validation & Type Safety
+- Always validate API request bodies with Zod schemas.
+- Use `z.nativeEnum()` for Prisma enums (e.g., `Tone`, `GenerationStatus`).
+- Trim strings in forms: `z.string().trim().min(1, "Field is required")`.
+- Use optional/nullable fields appropriately: `z.string().nullable().optional()`.
+
+### React Query Usage
+- Custom hooks in `src/hooks/` should use `useMutation` or `useQuery` from `@tanstack/react-query`.
+- Use `mutateAsync` for form submissions to handle success/error states.
+- Set appropriate `staleTime` in QueryClient configuration (see `src/app/providers.tsx`).
+
+## 4. STYLING & UI
+
+### Tailwind CSS
+- Use Tailwind utility classes. Follow existing patterns for spacing, colors, and responsive design.
+- Use dark mode classes: `dark:text-white/60` for text, `dark:bg-white/5` for backgrounds.
+- Maintain consistent spacing: `gap-4`, `p-8 sm:p-20`, `max-w-2xl mx-auto`.
+
+### Accessibility
+- Use semantic HTML: `<form>`, `<button>`, proper heading hierarchy.
+- Ensure form fields have proper `id`, `name`, `label`, and `required` attributes.
+
+## 5. AI INTEGRATION (OpenAI)
+
+### Headline Generation
+- Use `gpt-4o-mini` model with JSON mode: `response_format: { type: "json_object" }`.
+- Always parse and validate OpenAI JSON responses with error handling.
+- Normalize text for duplicate detection (lowercase, remove accents, trim).
+- Create database records with `PENDING` status before generation, update to `COMPLETED` or `FAILED` after.
+
+### Prompt Engineering
+- Build prompts that include campaign context: industry, audience, tone, description.
+- Exclude existing headlines/images to avoid duplicates.
+- Use clear, structured prompts with requirements and constraints.
+
+## 6. TESTING & VERIFICATION
+
+### Code Quality Tools
+- Run `npm run lint` (Biome) before committing.
+- Run `npm run format` to auto-format code.
+- Ensure TypeScript compiles without errors: `npx tsc --noEmit`.
+
+## 7. ABSOLUTE DO-NOTS
+
+- DO NOT change translation keys unless specified.
+- DO NOT add logic that doesn't need to be there.
+- DO NOT wrap everything in try-catch. Think first.
+- DO NOT create side effects without mentioning them.
+- DO NOT use `any` types.
+- DO NOT commit `.env` files or sensitive data.
+- DO NOT skip Zod validation on API routes.
+- DO NOT use client components when Server Components suffice.
+
+## 8. WHEN MAKING CHANGES
+
+### Before Writing Code
+- Read existing similar code to understand patterns.
+- Check for related files that might be affected.
+- Understand the data flow: API → Database → UI.
+
+### While Writing Code
+- Match existing code style and structure.
+- Use existing utility functions and hooks.
+- Follow the established error handling patterns.
+
+### After Writing Code
+- Run linter and formatter.
+- Test the changes manually.
+- Verify TypeScript types are correct.
+- Check that database operations work as expected.
+
+## 9. DOCUMENTATION
+
+- Comment complex logic, especially AI prompt building and data normalization.
+- Use JSDoc for exported functions when behavior is non-obvious.
+
