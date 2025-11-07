@@ -56,7 +56,7 @@ Create a `.env` in the project root. Required variables:
   - Associate headlines and images into simple “creatives” entries for a campaign
 
 ### 5. Deployment URL
-Live app: <provide Vercel URL here>
+Live app: https://campaign-brief.vercel.app/
 
 ### 6. Technical decisions
 - **App Router + RSC**: Server Components used for initial data fetch/render;
